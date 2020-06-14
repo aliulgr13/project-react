@@ -1,0 +1,22 @@
+.StarRating {
+  display: inline;
+  margin-left: 1rem;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
+  transition: color 200ms;
+}
+
+.average-rating {
+  font-weight: bold;
+  letter-spacing: 0.3rem;
+  color: darkgray;
+  display: inline;
+  padding-left: 1.5rem;
+  vertical-align: super;
+}
