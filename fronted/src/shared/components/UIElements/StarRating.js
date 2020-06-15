@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
-
-import { FaStar } from "react-icons/fa";
+import ReactStars from "react-rating-stars-component";
 
 import LoadingSpinner from "../UIElements/LoadingSpinner";
 import Modal from "../UIElements/Modal";
@@ -18,7 +17,6 @@ function StarRating({ placeId, rate }) {
   const { isLoading, error, sendRequest, clearError } = useHttpClient();
   const [rating, setRating] = useState(rate.averageRating);
   const [ratingSameUser, setRatingSameUser] = useState(0);
-  const [hover, setHover] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showConfirmModal, setShowconfirmModal] = useState(false);
   const [raterNumb, setRaterNumb] = useState(rate.raterRates.length);
@@ -68,7 +66,7 @@ function StarRating({ placeId, rate }) {
 
   return (
     <>
-      {isLoading && <LoadingSpinner />}
+      {isLoading && <LoadingSpinner asOverlay />}
       <ErrorModal error={error} onClear={clearError} />
       <Modal
         show={showLoginModal}
@@ -94,28 +92,8 @@ function StarRating({ placeId, rate }) {
         message=" You've already rate this pleace, Do you want to change your rating
         anyway.."
       />
-      {/* <Modal
-        show={showConfirmModal}
-        onCancel={closeConfirmHandler}
-        footerClass="place-item__modal-actions"
-        footer={
-          <>
-            <Button inverse onClick={closeConfirmHandler}>
-              CANCEL
-            </Button>
-            <Button danger onClick={() => patchRates(ratingSameUser)}>
-              Rate
-            </Button>
-          </>
-        }
-      >
-        <p>
-          You've already rate this pleace, Do you want to change your rating
-          anyway..
-        </p>
-      </Modal> */}
-      <div>
-        {[...Array(5)].map((start, index) => {
+      <div className="StarRating center">
+        {/* {[...Array(5)].map((start, index) => {
           const ratingValue = index + 1;
           return (
             <label key={auth.userId + index}>
@@ -134,8 +112,21 @@ function StarRating({ placeId, rate }) {
               />
             </label>
           );
-        })}
-        <p className="average-rating">{`${rating.toFixed(1)}(${raterNumb})`}</p>
+        })} */}
+        <ReactStars
+          className="star"
+          value={rating}
+          count={5}
+          onChange={rateHandler}
+          size={30}
+          half={true}
+          emptyIcon={<i className="far fa-star" />}
+          halfIcon={<i className="fa fa-star-half-alt" />}
+          fullIcon={<i className="fa fa-star" />}
+          color1={"#e4e5e9"}
+          color2={"#ffc107"}
+        />
+        <span className="ratings">{"(" + raterNumb + " ratings)"}</span>
       </div>
     </>
   );
